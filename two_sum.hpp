@@ -2,26 +2,31 @@ class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
         vector<int> result;
-        unordered_map<int, size_t> candidateValues;
+        vector<pair<bool, size_t>> candidateValues;
         for (auto index = 0; index < nums.size(); ++index) {
             auto candidateValue = nums[index];
-            auto candidateValueIterator = candidateValues.find(candidateValue);
-            if (candidateValueIterator != candidateValues.end()) {
+            if (candidateValues.size() > candidateValue && candidateValues[candidateValue].first) {
                 if (candidateValue << 1 == target) {
-                    result.push_back(candidateValueIterator->second);
+                    result.push_back(candidateValues[candidateValue].second);
                     result.push_back(index);
                     return result;
                 }
             } else {
                 auto otherValue = target - candidateValue;
-                auto otherValueIterator = candidateValues.find(otherValue);
-                if (otherValueIterator != candidateValues.end()) {
-                    result.push_back(otherValueIterator->second);
+                if (candidateValues.size() > otherValue && candidateValues[otherValue].first) {
+                    result.push_back(candidateValues[otherValue].second);
                     result.push_back(index);
                     return result;
                 }
             }
-            candidateValues[candidateValue] = index;
+            pair<bool, size_t> pairToStore;
+            if (candidateValues.size() <= candidateValue) {
+                pairToStore.first = false;
+                candidateValues.resize(candidateValue+1, pairToStore);
+            }
+            pairToStore.first = true;
+            pairToStore.second = index;
+            candidateValues[candidateValue] = pairToStore;
         }
         // not yet sure how to make value null appear in output
         return result;
