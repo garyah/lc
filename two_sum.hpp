@@ -15,7 +15,7 @@ public:
             auto candidateValue = nums[index];
             auto candidateValueIterator = candidateValues.find(candidateValue);
             if (candidateValueIterator != candidateValues.end()) {
-                if (candidateValue + candidateValue == target) {
+                if (candidateValue << 1 == target) {
                     result.push_back(candidateValueIterator->second);
                     result.push_back(index);
                     return result;
