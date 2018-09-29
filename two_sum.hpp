@@ -2,14 +2,6 @@ class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
         vector<int> result;
-        if (nums.size() == 2) {
-            if (nums[0] + nums[1] == target) {
-                result.push_back(0);
-                result.push_back(1);
-            }
-            return result;
-        }
-        
         unordered_map<int, size_t> candidateValues;
         for (auto index = 0; index < nums.size(); ++index) {
             auto candidateValue = nums[index];
