@@ -10,31 +10,26 @@ public:
             return result;
         }
         
-        unordered_map<int, vector<size_t>> candidateValues;
+        unordered_map<int, size_t> candidateValues;
         for (auto index = 0; index < nums.size(); ++index) {
-            auto valueToStore = nums[index];
-            if (candidateValues.find(valueToStore) == candidateValues.end()) {
-                vector<size_t> indexesOfValue;
-                candidateValues[valueToStore] = indexesOfValue;
-            }
-            candidateValues[valueToStore].push_back(index);
-        }
-
-        for (auto numsIterator = nums.cbegin(); numsIterator != nums.cend(); ++numsIterator) {
-            auto candidateValue = *numsIterator;
-            auto otherValue = target - candidateValue;
-            if (candidateValue != otherValue) {
-                auto otherValueIterator = candidateValues.find(otherValue);
-                if (otherValueIterator != candidateValues.end()) {
-                    result.push_back(candidateValues[candidateValue][0]);
-                    result.push_back(otherValueIterator->second[0]);
+            auto candidateValue = nums[index];
+            auto candidateValueIterator = candidateValues.find(candidateValue);
+            if (candidateValueIterator != candidateValues.end()) {
+                if (candidateValue + candidateValue == target) {
+                    result.push_back(candidateValueIterator->second);
+                    result.push_back(index);
                     return result;
                 }
-            } else if (candidateValues[candidateValue].size() > 1) {
-                result.push_back(candidateValues[candidateValue][0]);
-                result.push_back(candidateValues[candidateValue][1]);
-                return result;
+            } else {
+                auto otherValue = target - candidateValue;
+                auto otherValueIterator = candidateValues.find(otherValue);
+                if (otherValueIterator != candidateValues.end()) {
+                    result.push_back(otherValueIterator->second);
+                    result.push_back(index);
+                    return result;
+                }
             }
+            candidateValues[candidateValue] = index;
         }
         // not yet sure how to make value null appear in output
         return result;
