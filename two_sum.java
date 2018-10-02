@@ -8,7 +8,7 @@ class Solution {
             int candidateValue = nums[index];
             int otherValue = target - candidateValue;
             if (candidateValues.containsKey(otherValue)) {
-                return new int[] {map.get(otherValue), index};
+                return new int[] {candidateValues.get(otherValue), index};
             }
             candidateValues.put(candidateValue, index);
         }
